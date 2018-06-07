@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -29,7 +30,23 @@ class BookWasReleased extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['slack'];
+    }
+
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)
+            ->from('News', ':robot_face:')
+            ->to('#general')
+            ->content('Hey, Christoph just released his chatbot book!')
+            ->attachment(function ($attachment) {
+                $attachment->title('Book')
+                    ->image('https://christoph-rumpel.com/images/book/book_v1.png')
+                    ->fields([
+                        'Title' => 'Build Chatbots with PHP',
+                        'Price' => '€39,90',
+                    ]);
+            });
     }
 
     /**
