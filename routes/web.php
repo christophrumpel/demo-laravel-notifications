@@ -19,4 +19,6 @@ Route::get('/', function () {
     $user = User::first();
     $user->notify(new BookWasReleased());
 
+    $user->notifications->first()->markAsRead();
+
 });

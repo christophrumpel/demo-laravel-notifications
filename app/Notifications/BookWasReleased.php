@@ -29,7 +29,7 @@ class BookWasReleased extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -56,7 +56,8 @@ class BookWasReleased extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'message' => 'I just released my new ebook',
+            'actionUrl' => 'https://christoph-rumpel.com'
         ];
     }
 }
