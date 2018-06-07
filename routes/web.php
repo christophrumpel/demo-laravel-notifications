@@ -11,6 +11,12 @@
 |
 */
 
+use App\Notifications\BookWasReleased;
+use App\User;
+
 Route::get('/', function () {
-    return view('welcome');
+
+    $user = User::first();
+    $user->notify(new BookWasReleased());
+
 });
