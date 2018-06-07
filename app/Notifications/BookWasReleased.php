@@ -7,6 +7,8 @@ use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use NotificationChannels\Twitter\TwitterChannel;
+use NotificationChannels\Twitter\TwitterStatusUpdate;
 
 class BookWasReleased extends Notification
 {
@@ -30,7 +32,13 @@ class BookWasReleased extends Notification
      */
     public function via($notifiable)
     {
-        return ['slack'];
+        return [TwitterChannel::class];
+    }
+
+    public function toTwitter($notifiable)
+    {
+        //return new TwitterStatusUpdate('This is a live tweet from my @fwdays talk about Laravel notifications ✌️');
+        return (new TwitterStatusUpdate('This is a live tweet from my talk about Laravel notifications ✌️'))->withImage('https://christoph-rumpel.com/images/book/book_v1.png');
     }
 
     public function toSlack($notifiable)
